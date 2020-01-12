@@ -1,7 +1,7 @@
-import { AppServer } from '../src/app/app';
+// import { AppServer } from '../src/app/app';
 
-const appServer = new AppServer();
+// const appServer = new AppServer();
 
-export default function () {
-  return appServer.listen();
-}
+// export default function () {
+//   return appServer.listen();
+// }
