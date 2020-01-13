@@ -23,4 +23,4 @@ router.get('/profile/:userName', async (ctx, next) => {
 })
 
 
-module.exports = router
+export default router

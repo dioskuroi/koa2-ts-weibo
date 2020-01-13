@@ -19,4 +19,4 @@ router.post('/login', async (ctx, next) => {
   }
 })
 
-module.exports = router
+export default router

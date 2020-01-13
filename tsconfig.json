@@ -4,6 +4,7 @@
     "types": [
       "node",
       "jest",
+      "koa",
       "koa-bodyparser"  // 解决 request.body 报错问题
     ],
     "target": "es6",

@@ -59,6 +59,7 @@
     ],
     "no-continue": "off",
     "indent": "off",
-    "semi": "off"
+    "semi": "off",
+    "import/extensions": "off"
   }
 }
