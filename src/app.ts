@@ -37,7 +37,7 @@ app.use(index.routes()).use(index.allowedMethods())
 app.use(users.routes()).use(users.allowedMethods())
 
 // error-handling
-app.on('error', (err, ctx) => {
+app.on('error', (err: any, ctx: Koa.BaseContext) => {
   // eslint-disable-next-line no-console
   console.error('server error', err, ctx)
 })
