@@ -51,6 +51,8 @@
     "import/no-duplicates": "off",
     "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": "off",
+    "no-async-promise-executor": "off",
+    "no-useless-return":"off",
     "max-len": [
       "error",
       {

@@ -5,13 +5,16 @@
       "node",
       "jest",
       "koa",
-      "koa-bodyparser"  // 解决 request.body 报错问题
+      "koa-bodyparser",  // 解决 request.body 报错问题
+      "sequelize",
+      "redis"
     ],
     "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",
     "strict": false,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "paths": {
       "@model/*": [
         "./src/app/core/model/*"
@@ -29,7 +32,9 @@
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts"
+    "test/**/*.ts",
+    "learnSequelize/*.ts", 
+    "learnSequelize/**/*.ts"
   ],
   "exclude": [
     "copyStatic.ts",
