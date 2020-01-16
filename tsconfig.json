@@ -7,7 +7,8 @@
       "koa",
       "koa-bodyparser",  // 解决 request.body 报错问题
       "sequelize",
-      "redis"
+      "redis",
+      "koa-views"
     ],
     "target": "es6",
     "module": "commonjs",
