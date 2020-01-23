@@ -5,7 +5,7 @@
 
 import { createClient } from 'redis'
 
-import REDIS_CONF from '../config/db'
+import { REDIS_CONF } from '../config/db'
 import { isPlainObject, isVoid } from '../utils/type'
 
 const redisClient = createClient(REDIS_CONF.port, REDIS_CONF.host)

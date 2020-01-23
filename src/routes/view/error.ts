@@ -1,3 +1,8 @@
+/**
+ * @description 404 和 错误页
+ * @author 徐俊
+ */
+
 import Router from 'koa-router'
 
 const router = new Router()

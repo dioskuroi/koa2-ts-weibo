@@ -1,0 +1,18 @@
+/**
+ * @description response code
+ * @author 徐俊
+ */
+
+enum ResCode {
+  ERR_OK = 0,
+  ERR_REGISTER_USERNAME_EXIST = 10001,
+  ERR_REGISTER_FAIL = 10002,
+  ERR_REGISTER_USERNAME_NOT_EXIST = 10003,
+  ERR_LOGIN_FAIL = 10004,
+  ERR_LOGIN_CHECK_FAIL = 10005,
+  ERR_VALIDATE_JSON_SCHEMA_FAIL = 10006,
+  ERR_DELETE_USER_FAIL = 10007
+}
+
+
+export default ResCode

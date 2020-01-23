@@ -44,8 +44,6 @@ if (env.isProd) {
   }
 }
 
-// if (env.isTest) {
-//   MYSQL_CONF.conf.logging = () => {}
-// }
-
-// export default REDIS_CONF
+if (env.isTest) {
+  MYSQL_CONF.conf.logging = () => {}
+}

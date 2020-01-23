@@ -8,7 +8,10 @@
       "koa-bodyparser",  // 解决 request.body 报错问题
       "sequelize",
       "redis",
-      "koa-views"
+      "koa-views",
+      "supertest",
+      "ajv",
+      "koa-generic-session"
     ],
     "target": "es6",
     "module": "commonjs",
@@ -16,6 +19,7 @@
     "strict": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "paths": {
       "@model/*": [
         "./src/app/core/model/*"

@@ -6,8 +6,11 @@ import onError from 'koa-onerror'
 import bodyparser from 'koa-bodyparser'
 import logger from 'koa-logger'
 
+import './db/seq'
+
+import userApiRouter from './routes/api/user'
 import index from './routes/index'
-import users from './routes/users'
+import userViewRouter from './routes/view/user'
 import error from './routes/view/error'
 import env from './utils/env'
 
@@ -48,8 +51,9 @@ app.use(views(`${__dirname}/views`, {
 // })
 
 // routes
+app.use(userApiRouter.routes()).use(userApiRouter.allowedMethods())
 app.use(index.routes()).use(index.allowedMethods())
-app.use(users.routes()).use(users.allowedMethods())
+app.use(userViewRouter.routes()).use(userViewRouter.allowedMethods())
 app.use(error.routes()).use(error.allowedMethods())
 
 // error-handling
