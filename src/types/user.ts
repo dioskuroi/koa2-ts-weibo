@@ -14,7 +14,7 @@ export type UserModelInterface = {
   city?: string
 }
 
-export type UserInfoAttr = 'id' | 'userName' | 'nickName' | 'picture' | 'city'
+export type UserInfoAttr = 'id' | keyof Omit<UserModelInterface, 'password' | 'gender'>
 
 export type UserInfo = Pick<User, UserInfoAttr>
 
