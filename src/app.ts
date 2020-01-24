@@ -7,12 +7,16 @@ import bodyparser from 'koa-bodyparser'
 import logger from 'koa-logger'
 
 import './db/seq'
+import { SESSION_SECRET_KEY } from './config/secretKeys'
+import { REDIS_CONF } from './config/db'
+import session from 'koa-generic-session'
+import redisStore from 'koa-redis'
 
 import userApiRouter from './routes/api/user'
 import index from './routes/index'
 import userViewRouter from './routes/view/user'
 import error from './routes/view/error'
-import env from './utils/env'
+import ENV from './utils/env'
 
 interface ErrorOption {
   redirect?: string
@@ -21,7 +25,7 @@ interface ErrorOption {
 // error handler option
 let errorOption:ErrorOption = {}
 
-if (env.isProd) {
+if (ENV.isProd) {
   errorOption = {
     redirect: '/error'
   }
@@ -42,6 +46,23 @@ app.use(views(`${__dirname}/views`, {
   extension: 'ejs'
 }))
 
+// session'
+app.keys = [SESSION_SECRET_KEY]
+
+app.use(session({
+  key: 'weibo.sid',
+  prefix: 'weibo.sess',
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000
+  },
+  store: redisStore({
+    // all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+    host: REDIS_CONF.host,
+    port: REDIS_CONF.port
+  })
+}))
 // logger
 // app.use(async (ctx, next) => {
 //   const start = new Date()

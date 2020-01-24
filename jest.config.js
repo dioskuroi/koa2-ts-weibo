@@ -3,11 +3,11 @@ const { compilerOptions } = require('./tsconfig');
 const path = require('path');
 module.exports = {
   name: 'server',
-  testMatch: ['**/+(*.)+(spec|test).+(ts|js)?(x)'],
+  testMatch: ['**/+(*.)+(spec|test).+(ts|js)?(x)', '(*.)+(spec|test).+(ts|js)?(x)'],
   transform: {
     '^.+\\.(ts|js|html)$': 'ts-jest'
   },
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: `${path.resolve(__dirname)}/` }),
+  // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: `${path.resolve(__dirname)}/` }),
   // resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageReporters: ['html'],

@@ -10,11 +10,13 @@ import {
   AllowNull,
   DataType,
   Comment,
-  Unique
+  Unique,
+  Default
 } from 'sequelize-typescript'
+import { UserModelInterface } from '../../types'
 
 @Table({ tableName: 'users' })
-export default class User extends Model<User> {
+export default class User extends Model<User> implements UserModelInterface {
   @Unique
   @Comment('用户名，唯一')
   @Column(DataType.STRING)
@@ -28,6 +30,7 @@ export default class User extends Model<User> {
   @Column(DataType.STRING)
   nickName: string
 
+  @Default(3)
   @Comment('性别（1 男，2 女，3 保密）')
   @Column(DataType.DECIMAL)
   gender: number

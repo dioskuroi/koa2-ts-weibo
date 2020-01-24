@@ -22,7 +22,7 @@ class BasicModel<T = void> implements ResInterface<T> {
 export class SuccessModel<T> extends BasicModel<T> implements SuccessInterface<T> {
   errno: number
   data: T
-  constructor(data: T) {
+  constructor(data?: T) {
     super({ errno: ResCode.ERR_OK, data })
   }
 }

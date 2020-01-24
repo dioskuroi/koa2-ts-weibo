@@ -3,7 +3,7 @@
  * @author 徐俊
  */
 
-import env from '../utils/env'
+import ENV from '../utils/env'
 import { ClientOpts } from 'redis'
 import { SequelizeOptions } from 'sequelize-typescript'
 
@@ -31,7 +31,7 @@ export const MYSQL_CONF: MysqlConf = {
   }
 }
 
-if (env.isProd) {
+if (ENV.isProd) {
   REDIS_CONF = {
     host: 'localhost',
     port: 6379
@@ -44,6 +44,6 @@ if (env.isProd) {
   }
 }
 
-if (env.isTest) {
+if (ENV.isTest) {
   MYSQL_CONF.conf.logging = () => {}
 }

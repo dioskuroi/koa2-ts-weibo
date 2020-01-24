@@ -4,7 +4,7 @@
  */
 
 import User from '../db/models/user'
-import { UserInfo, UserInfoAttr } from '../types'
+import { UserInfo, UserInfoAttr, RegisterParam } from '../types'
 import { formatUserInfo } from './helpers/_format'
 import { isNull } from '../utils/type'
 
@@ -55,4 +55,40 @@ export async function getUserInfo(userName: string, password?: string): Promise<
     })
   }
   return result
+}
+
+/**
+ *
+ * @param userName 用户名
+ * @param password 密码
+ * @param gender 性别（ 1 男，2 女，3 保密）
+ * @param nickName 昵称
+ */
+export async function createUser({
+  userName,
+  password,
+  gender,
+  nickName
+}: RegisterParam): Promise<User> {
+  const result = await User.create({
+    userName,
+    password,
+    gender,
+    nickName: nickName || userName
+  })
+  return result
+}
+
+/**
+ * 删除用户
+ * @param userName 用户名
+ */
+export async function deleteUser(userName: string): Promise<boolean> {
+  const result = await User.destroy({
+    where: {
+      userName
+    }
+  })
+  // * result 返回的是删除行数
+  return result > 0
 }

@@ -5,13 +5,13 @@
       "node",
       "jest",
       "koa",
-      "koa-bodyparser",  // 解决 request.body 报错问题
+      "koa-generic-session",
+      "koa-bodyparser",
       "sequelize",
       "redis",
       "koa-views",
       "supertest",
-      "ajv",
-      "koa-generic-session"
+      "ajv"
     ],
     "target": "es6",
     "module": "commonjs",
@@ -19,30 +19,13 @@
     "strict": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "paths": {
-      "@model/*": [
-        "./src/app/core/model/*"
-      ],
-      "@controller/*": [
-        "./src/app/core/controller/*"
-      ],
-      "@bll/*": [
-        "./src/app/core/bll/*"
-      ],
-      "@dal/*": [
-        "./src/app/core/dal/*"
-      ]
-    }
+    "emitDecoratorMetadata": true
   },
   "include": [
     "src/**/*.ts",
     "test/**/*.ts",
-    "learnSequelize/*.ts", 
+    "learnSequelize/*.ts",
     "learnSequelize/**/*.ts"
   ],
-  "exclude": [
-    "copyStatic.ts",
-    "rm-dist.ts"
-  ]
+  "exclude": ["copyStatic.ts", "rm-dist.ts"]
 }
