@@ -13,8 +13,18 @@ const router = new Router()
 
 router.prefix('/api/utils')
 
+
+interface File {
+  name: string
+  size: number
+  type: string
+  path: string
+}
+
+
 router.post('/upload', loginCheck, koaForm(), async (ctx, next) => {
-  const file = ctx.request.files.file
+  const req = ctx.req as any
+  const file = req.files.file as File[] | File
   if (!isVoid(file) && !isArray(file)) {
     const { name, size, type, path } = file
     ctx.body = await upload({ name, size, type, filePath: path })
