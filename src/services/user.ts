@@ -104,7 +104,7 @@ interface UpdateUserWhere extends StringIndexObj {
  */
 export async function updateUser(
   { nickName, city, picture, newPassword }: ChangeParam,
-  { userName, passowrd }: UpdateUserWhere
+  { userName, password }: UpdateUserWhere
 ): Promise<boolean> {
   const whereOpt: UpdateUserWhere = {
     userName
@@ -119,10 +119,11 @@ export async function updateUser(
   if (!isVoid(picture)) {
     updateData.picture = picture
   }
+
   if (!isVoid(newPassword)) {
-    if (isVoid(passowrd)) return false
-    updateData.newPassword = newPassword
-    whereOpt.password = passowrd
+    if (isVoid(password)) return false
+    updateData.password = newPassword
+    whereOpt.password = password
   }
 
   const result = await User.update(updateData, {

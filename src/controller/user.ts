@@ -107,7 +107,7 @@ export async function changeInfo(ctx: BaseContext, { nickName, city, picture }: 
  */
 export async function changePassword(ctx: BaseContext, { password, newPassword }: ChangeParam): ResModel<void> {
   const { userName } = ctx.session.userInfo
-  const result = await updateUser({ newPassword }, { userName, password })
+  const result = await updateUser({ newPassword: doCrypto(newPassword) }, { userName, password: doCrypto(password) })
   return result ? new SuccessModel<void>() : new ErrorModel(changePasswordFailInfo)
 }
 
