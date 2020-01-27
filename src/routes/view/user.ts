@@ -5,6 +5,7 @@
 
 import Router from 'koa-router'
 import { isVoid } from '../../utils/type'
+import { loginRedirect } from '../../middlewares/loginCheck'
 
 interface PageParam {
   isLogin: boolean,
@@ -43,6 +44,10 @@ router.get('/register', async (ctx, next) => {
   }
 
   await ctx.render('register', pageParam)
+})
+
+router.get('/setting', loginRedirect, async (ctx, next) => {
+  await ctx.render('setting', ctx.session.userInfo)
 })
 
 export default router
