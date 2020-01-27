@@ -5,9 +5,9 @@
 
 import Router from 'koa-router'
 import {
- isExist, register, login, deleteCurrentUser
+ isExist, register, login, deleteCurrentUser, changeInfo
 } from '../../controller/user'
-import { RegisterParam, LoginParam, UserInfo } from '../../types'
+import { RegisterParam, LoginParam, ChangeParam } from '../../types'
 import genValidator from '../../middlewares/validator'
 import userValidate from '../../validator/user'
 import { loginCheck } from '../../middlewares/loginCheck'
@@ -53,6 +53,12 @@ router.post('/delete', loginCheck, async (ctx, next) => {
       ctx.body = await deleteCurrentUser(userName)
     }
   }
+})
+
+// * 修改用户信息
+router.patch('/changeInfo', loginCheck, genValidator(userValidate), async (ctx, next) => {
+  const { nickName, city, picture } = ctx.request.body as ChangeParam
+  ctx.body = await changeInfo(ctx, { nickName, city, picture })
 })
 
 export default router

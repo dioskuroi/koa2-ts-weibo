@@ -4,15 +4,14 @@
  */
 
 import User from '../db/models/user'
-import { UserInfo, UserInfoAttr, RegisterParam } from '../types'
+import { UserInfo, UserInfoAttr, RegisterParam, ChangeParam, StringIndexObj } from '../types'
 import { formatUserInfo } from './helpers/_format'
-import { isNull } from '../utils/type'
+import { isNull, isVoid } from '../utils/type'
 
 // * 查询用户
-interface FindUserWhereOpt {
+interface FindUserWhereOpt extends StringIndexObj {
   userName: string
   password?: string
-  [propName: string]: any
 }
 
 /**
@@ -91,4 +90,43 @@ export async function deleteUser(userName: string): Promise<boolean> {
   })
   // * result 返回的是删除行数
   return result > 0
+}
+
+interface UpdateUserWhere extends StringIndexObj {
+  userName: string
+  password?: string
+}
+
+/**
+ * 更新用户数据
+ * @param param0 更新数据 { nickName, city, picture, newPassword }
+ * @param param1 条件 { userName, passowrd }
+ */
+export async function updateUser(
+  { nickName, city, picture, newPassword }: ChangeParam,
+  { userName, passowrd }: UpdateUserWhere
+): Promise<boolean> {
+  const whereOpt: UpdateUserWhere = {
+    userName
+  }
+  const updateData: ChangeParam = {}
+  if (!isVoid(nickName)) {
+    updateData.nickName = nickName
+  }
+  if (!isVoid(city)) {
+    updateData.city = city
+  }
+  if (!isVoid(picture)) {
+    updateData.picture = picture
+  }
+  if (!isVoid(newPassword)) {
+    if (isVoid(passowrd)) return false
+    updateData.newPassword = newPassword
+    whereOpt.password = passowrd
+  }
+
+  const result = await User.update(updateData, {
+    where: whereOpt
+  })
+  return result[0] > 0
 }

@@ -3,15 +3,16 @@
  * @author 徐俊
  */
 import { SuccessModel, ErrorModel } from '../models/ResModel'
-import { getUserInfo, createUser, deleteUser } from '../services/user'
+import { getUserInfo, createUser, deleteUser, updateUser } from '../services/user'
 import { isNull, isVoid } from '../utils/type'
 import {
- UserInfo, RegisterParam, LoginParam, ResModel, MiddlewareFnParam
+ UserInfo, RegisterParam, LoginParam, ResModel, MiddlewareFnParam, ChangeParam
 } from '../types'
 import {
- registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteUserFailInfo
+ registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteUserFailInfo, changeInfoFailInfo
 } from '../models/errorInfo'
 import doCrypto from '../utils/crypto'
+import { BaseContext } from 'koa'
 
 /**
  * 查询用户是否存在
@@ -70,4 +71,24 @@ export async function login(ctx: MiddlewareFnParam, { userName, password }: Logi
 export async function deleteCurrentUser(userName: string): ResModel<void> {
   const result = await deleteUser(userName)
   return result ? new SuccessModel<void>() : new ErrorModel(deleteUserFailInfo)
+}
+
+/**
+ * 修改用户信息
+ * @param ctx ctx
+ * @param nickName 昵称
+ * @param city 城市
+ * @param picture 头像地址
+ */
+export async function changeInfo(ctx: BaseContext, { nickName, city, picture }: ChangeParam): ResModel<void> {
+  const { userName } = ctx.session.userInfo
+  if (isVoid(nickName)) {
+    nickName = userName
+  }
+  const result = await updateUser({ nickName, city, picture }, { userName })
+  if (!result) {
+    return new ErrorModel(changeInfoFailInfo)
+  }
+  Object.assign(ctx.session.userInfo, { nickName, city, picture } as Partial<UserInfo>)
+  return new SuccessModel<void>()
 }

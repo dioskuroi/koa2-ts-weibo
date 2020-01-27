@@ -21,3 +21,5 @@ export type UserInfo = Pick<User, UserInfoAttr>
 export type RegisterParam = Pick<User, 'userName' | 'password' | 'gender'> & Partial<Pick<User, 'nickName'>>
 
 export type LoginParam = Pick<User, 'userName' | 'password'>
+
+export type ChangeParam = Partial<Pick<User, 'nickName' | 'picture' | 'city' | 'password'> & { newPassword: string }>
