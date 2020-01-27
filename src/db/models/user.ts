@@ -18,29 +18,31 @@ import { UserModelInterface } from '../../types'
 @Table({ tableName: 'users' })
 export class User extends Model<User> implements UserModelInterface {
   @Unique
+  @AllowNull(false)
   @Comment('用户名，唯一')
   @Column(DataType.STRING)
   userName: string
 
+  @AllowNull(false)
   @Comment('密码')
   @Column(DataType.STRING)
   password: string
 
+  @AllowNull(false)
   @Comment('昵称')
   @Column(DataType.STRING)
   nickName: string
 
+  @AllowNull(false)
   @Default(3)
   @Comment('性别（1 男，2 女，3 保密）')
   @Column(DataType.DECIMAL)
   gender: number
 
-  @AllowNull
   @Comment('头像 图片地址')
   @Column(DataType.STRING)
   picture?: string
 
-  @AllowNull
   @Comment('城市')
   @Column(DataType.STRING)
   city?: string
