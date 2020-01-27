@@ -28,6 +28,11 @@ interface UploadParam {
   filePath: string
 }
 
+
+interface UploadRes {
+  url: string
+}
+
 /**
  * 上传
  * @param name 文件名
@@ -35,7 +40,7 @@ interface UploadParam {
  * @param size 文件大小
  * @param filePath 文件路径
  */
-export async function upload({ name, type, size, filePath }: UploadParam): ResModel<void> {
+export async function upload({ name, type, size, filePath }: UploadParam): ResModel<UploadRes> {
   if (size > MAX_SIZE) {
     await remove(filePath)
     return new ErrorModel(uploadFileSizeFailInfo)
@@ -43,5 +48,5 @@ export async function upload({ name, type, size, filePath }: UploadParam): ResMo
   const fileName = `${Date.now()}.${name}`
   const distFilePath = path.join(DIST_FILE_PATH, fileName)
   await move(filePath, distFilePath)
-  return new SuccessModel<void>()
+  return new SuccessModel<UploadRes>({ url: `/${fileName}` })
 }

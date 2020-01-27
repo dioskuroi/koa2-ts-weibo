@@ -1,3 +1,4 @@
+import path from 'path'
 import Koa from 'koa'
 const app = new Koa()
 import views from 'koa-views'
@@ -5,6 +6,7 @@ import json from 'koa-json'
 import onError from 'koa-onerror'
 import bodyparser from 'koa-bodyparser'
 import logger from 'koa-logger'
+import koaStatic from 'koa-static'
 
 import './db/seq'
 import { SESSION_SECRET_KEY } from './config/secretKeys'
@@ -41,7 +43,8 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(`${__dirname}/public`))
+app.use(koaStatic(`${__dirname}/public`))
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
 
 app.use(views(`${__dirname}/views`, {
   extension: 'ejs'
