@@ -31,6 +31,21 @@ export const loginCheckFailInfo: ErrorInterface = {
   message: '您尚未登录'
 }
 
+export const changePasswordFailInfo: ErrorInterface = {
+  errno: resCode.ERR_CHANGE_PASSOWRD_FAIL,
+  message: '修改密码失败，请重试'
+}
+
+export const uploadFileSizeFailInfo: ErrorInterface = {
+  errno: resCode.ERR_UPLOAD_FILE_SIZE_FAIL,
+  message: '上传文件尺寸过大'
+}
+
+export const changeInfoFailInfo: ErrorInterface = {
+  errno: resCode.ERR_CHANGE_INFO_FAIL,
+  message: '修改基本信息失败'
+}
+
 export const validateJsonSchemaFailInfo: ErrorInterface = {
   errno: resCode.ERR_VALIDATE_JSON_SCHEMA_FAIL,
   message: '数据格式校验错误'

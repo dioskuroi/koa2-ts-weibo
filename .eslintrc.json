@@ -63,6 +63,7 @@
     "indent": "off",
     "semi": "off",
     "import/extensions": "off",
-    "max-classes-per-file": "off"
+    "max-classes-per-file": "off",
+    "object-curly-newline": "off"
   }
 }

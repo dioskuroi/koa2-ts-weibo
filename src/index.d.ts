@@ -13,11 +13,26 @@ declare module 'koa-generic-session' {
   }
 }
 
-// *  在 ctx 中 补充 session 定义
+interface File {
+  name: string
+  size: number
+  type: string
+  path: string
+}
+
+interface Files {
+  file?: File[] | File
+}
+
 declare module 'koa' {
   interface BaseContext {
-      session: koaSession.Session|null;
-      sessionSave: boolean|null;
-      regenerateSession(): Generator;
+    // *  在 ctx 中 补充 session 定义
+    session: koaSession.Session|null;
+    sessionSave: boolean|null;
+    regenerateSession(): Generator;
+  }
+  interface Request {
+    // * 在 ctx 中 补充 files 定义
+    files: Files
   }
 }
