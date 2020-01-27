@@ -5,7 +5,7 @@
 
 import Router from 'koa-router'
 import {
- isExist, register, login, deleteCurrentUser, changeInfo
+ isExist, register, login, deleteCurrentUser, changeInfo, changePassword
 } from '../../controller/user'
 import { RegisterParam, LoginParam, ChangeParam } from '../../types'
 import genValidator from '../../middlewares/validator'
@@ -59,6 +59,12 @@ router.post('/delete', loginCheck, async (ctx, next) => {
 router.patch('/changeInfo', loginCheck, genValidator(userValidate), async (ctx, next) => {
   const { nickName, city, picture } = ctx.request.body as ChangeParam
   ctx.body = await changeInfo(ctx, { nickName, city, picture })
+})
+
+// * 修改用户密码
+router.patch('/changePassword', loginCheck, genValidator(userValidate), async (ctx, next) => {
+  const { password, newPassword } = ctx.request.body as ChangeParam
+  ctx.body = await changePassword(ctx, { password, newPassword })
 })
 
 export default router

@@ -9,7 +9,13 @@ import {
  UserInfo, RegisterParam, LoginParam, ResModel, MiddlewareFnParam, ChangeParam
 } from '../types'
 import {
- registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteUserFailInfo, changeInfoFailInfo
+  registerUserNameNotExistInfo,
+  registerUserNameExistInfo,
+  registerFailInfo,
+  loginFailInfo,
+  deleteUserFailInfo,
+  changeInfoFailInfo,
+  changePasswordFailInfo
 } from '../models/errorInfo'
 import doCrypto from '../utils/crypto'
 import { BaseContext } from 'koa'
@@ -91,4 +97,16 @@ export async function changeInfo(ctx: BaseContext, { nickName, city, picture }: 
   }
   Object.assign(ctx.session.userInfo, { nickName, city, picture } as Partial<UserInfo>)
   return new SuccessModel<void>()
+}
+
+/**
+ * 修改密码
+ * @param ctx ctx
+ * @param password 密码
+ * @param newPassword 新密码
+ */
+export async function changePassword(ctx: BaseContext, { password, newPassword }: ChangeParam): ResModel<void> {
+  const { userName } = ctx.session.userInfo
+  const result = await updateUser({ newPassword }, { userName, password })
+  return result ? new SuccessModel<void>() : new ErrorModel(changePasswordFailInfo)
 }
