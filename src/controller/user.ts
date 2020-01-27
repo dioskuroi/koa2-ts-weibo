@@ -110,3 +110,12 @@ export async function changePassword(ctx: BaseContext, { password, newPassword }
   const result = await updateUser({ newPassword }, { userName, password })
   return result ? new SuccessModel<void>() : new ErrorModel(changePasswordFailInfo)
 }
+
+/**
+ * 登出
+ * @param ctx ctx
+ */
+export async function logout(ctx: BaseContext): ResModel<void> {
+  delete ctx.session.userInfo
+  return new SuccessModel<void>()
+}
