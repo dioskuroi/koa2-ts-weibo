@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript'
 import { MYSQL_CONF } from '../config/db'
-import User from './models/user'
+import { User } from './models'
 
 // * 数据模型
 MYSQL_CONF.conf.models = [User]

@@ -3,7 +3,7 @@
  * @author 徐俊
  */
 
-import User from '../db/models/user'
+import { User } from '../db/models'
 import { UserInfo, UserInfoAttr, RegisterParam, ChangeParam, StringIndexObj } from '../types'
 import { formatUserInfo } from './helpers/_format'
 import { isNull, isVoid } from '../utils/type'

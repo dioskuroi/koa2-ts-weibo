@@ -1,4 +1,4 @@
-import User from 'src/db/models/user';
+import { User } from '../db/models';
 
 /**
  * @description 用户模块 数据结构

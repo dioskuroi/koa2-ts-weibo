@@ -4,7 +4,7 @@
  */
 
 import '../../src/db/seq'
-import User from '../../src/db/models/user'
+import { User } from '../../src/db/models'
 import { UserModelInterface } from 'src/types'
 
 test('User 模型的各个属性，符合预期', () => {

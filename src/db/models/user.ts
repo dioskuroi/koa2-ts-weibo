@@ -16,7 +16,7 @@ import {
 import { UserModelInterface } from '../../types'
 
 @Table({ tableName: 'users' })
-export default class User extends Model<User> implements UserModelInterface {
+export class User extends Model<User> implements UserModelInterface {
   @Unique
   @Comment('用户名，唯一')
   @Column(DataType.STRING)
