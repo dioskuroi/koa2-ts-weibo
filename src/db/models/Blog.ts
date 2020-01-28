@@ -5,9 +5,10 @@
 
 import { Table, Column, Comment, AllowNull, DataType, Model, BelongsTo, ForeignKey } from 'sequelize-typescript'
 import { User } from './user'
+import { CreateBlog } from '../../types'
 
 @Table({ tableName: 'blogs' })
-export class Blog extends Model<Blog> {
+export class Blog extends Model<Blog> implements CreateBlog {
   @AllowNull(false)
   @ForeignKey(() => User)
   @Comment('用户id')

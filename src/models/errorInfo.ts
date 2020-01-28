@@ -55,3 +55,8 @@ export const deleteUserFailInfo: ErrorInterface = {
   errno: resCode.ERR_DELETE_USER_FAIL,
   message: '删除用户失败'
 }
+
+export const createBlogFailInfo: ErrorInterface = {
+  errno: resCode.ERR_CREATE_BLOG_FALI,
+  message: '创建微博失败，请重试'
+}
