@@ -11,6 +11,7 @@ import genValidator from '../../middlewares/validator'
 import blogValidate from '../../validator/blog'
 
 const router = new Router({ prefix: '/api/blog' })
+
 router.post('/create', loginCheck, genValidator(blogValidate), async (ctx, next) => {
   const { content, image } = ctx.request.body as Omit<CreateBlogParam, 'userId'>
   const { id: userId } = ctx.session.userInfo

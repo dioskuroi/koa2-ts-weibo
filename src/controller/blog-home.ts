@@ -10,10 +10,11 @@ import { SuccessModel, ErrorModel } from '../models/ResModel';
 import { createBlogFailInfo } from '../models/errorInfo';
 
 /**
- * @description 首页 controller
- * @author 徐俊
+ * 创建微博
+ * @param userId 用户ID
+ * @param content 微博正文
+ * @param image 图片地址
  */
-
 export async function create({ userId, content, image }: CreateBlogParam): ResModel<CreateBlog> {
   try {
     const result = await createBlog({ userId, content: xss.filterXSS(content), image })
