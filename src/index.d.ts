@@ -20,5 +20,7 @@ declare module 'koa' {
     session: koaSession.Session|null;
     sessionSave: boolean|null;
     regenerateSession(): Generator;
+    // * 在 ctx 中 补充 render 定义
+    render(viewPath: string, locals?: any): Promise<void>;
   }
 }

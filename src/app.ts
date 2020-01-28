@@ -16,8 +16,8 @@ import redisStore from 'koa-redis'
 
 import userApiRouter from './routes/api/user'
 import utilsApiRouter from './routes/api/utils'
-import index from './routes/index'
 import userViewRouter from './routes/view/user'
+import blogViewRouter from './routes/view/blog'
 import error from './routes/view/error'
 import ENV from './utils/env'
 
@@ -78,8 +78,8 @@ app.use(session({
 // routes
 app.use(userApiRouter.routes()).use(userApiRouter.allowedMethods())
 app.use(utilsApiRouter.routes()).use(utilsApiRouter.allowedMethods())
-app.use(index.routes()).use(index.allowedMethods())
 app.use(userViewRouter.routes()).use(userViewRouter.allowedMethods())
+app.use(blogViewRouter.routes()).use(blogViewRouter.allowedMethods())
 app.use(error.routes()).use(error.allowedMethods())
 
 // error-handling
