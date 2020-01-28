@@ -3,4 +3,5 @@
  * @author 徐俊
  */
 
-export * from './user'
+export * from './User'
+export * from './Blog'
