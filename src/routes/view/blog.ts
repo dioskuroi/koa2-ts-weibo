@@ -5,7 +5,10 @@
 
 import Router from 'koa-router'
 import { loginRedirect } from '../../middlewares/loginCheck'
-import { UserInfo } from 'src/types'
+import { UserInfo, BlogData } from '../../types'
+import { listProfileBlog } from '../../controller/blog-profile'
+import { isExist } from '../../controller/user'
+import { isVoid } from '../../utils/type'
 
 const router = new Router()
 
@@ -23,13 +26,7 @@ interface UserData {
   amIFollowed?: boolean
 }
 
-interface BlogData {
-  isEmpty: boolean,
-  blogList: any[],
-  pageSize: number,
-  pageIndex: number,
-  count: number
-}
+
 interface IndexParam {
   blogData:BlogData,
   userData: UserData
@@ -60,8 +57,8 @@ router.get('/', loginRedirect, async (ctx, next) => {
 })
 
 interface ProfileParam {
-  blogData: BlogData,
-  userData: UserData
+  blogData?: BlogData,
+  userData?: Partial<UserData>
 }
 
 router.get('/profile', loginRedirect, async (ctx, next) => {
@@ -70,28 +67,37 @@ router.get('/profile', loginRedirect, async (ctx, next) => {
 })
 
 router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
-  const ProfileParam: ProfileParam = {
-    blogData: {
-      isEmpty: true,
-      blogList: [],
-      pageIndex: 0,
-      pageSize: 0,
-      count: 0
-    },
+  const profileParam: ProfileParam = {
     userData: {
-      userInfo: ctx.session.userInfo,
       fansData: {
-        count: 0,
-        list: []
+        list: [],
+        count: 0
       },
       followersData: {
-        count: 0,
-        list: []
+        list: [],
+        count: 0
       },
       amIFollowed: false
-    },
+    }
   }
-  await ctx.render('profile', ProfileParam)
+  let curUserInfo: UserInfo
+  const myUserInfo = ctx.session.userInfo
+  const myUserName = myUserInfo.userName
+  const { userName: curUserName } = ctx.params as { userName: string }
+  const isMe = myUserName === curUserName
+  if (isMe) {
+    curUserInfo = myUserInfo
+  } else {
+    const result = await isExist(curUserName)
+    if (isVoid(result.data)) return
+    curUserInfo = result.data
+  }
+  profileParam.userData.userInfo = curUserInfo
+
+  const { data } = await listProfileBlog(curUserInfo.userName, 0)
+  profileParam.blogData = data
+
+  await ctx.render('profile', profileParam)
 })
 
 export default router

@@ -3,8 +3,10 @@
  * @author 徐俊
  */
 
-import { CreateBlogParam, CreateBlog } from '../types';
-import { Blog } from '../db/models';
+import { CreateBlogParam, CreateBlog, ListBlogResult, StringIndexObj } from '../types';
+import { Blog, User } from '../db/models';
+import { isVoid } from '../utils/type';
+import { formatUserInfo, formatBlogData } from './helpers/_format';
 
 /**
  * 创建微博
@@ -23,5 +25,63 @@ export async function createBlog({ userId, content, image }: CreateBlogParam): P
     userId: result.userId,
     content: result.content,
     image: result.image
+  }
+}
+
+interface ListBlogParam {
+  curUserName?: string
+  pageIndex: number
+  pageSize: number
+}
+
+interface UserWhereOpt extends StringIndexObj {
+  userName?: string
+}
+
+/**
+ * 根据用户名查询个人主页微博列表
+ * @param curUsername 当前用户名
+ * @param pageIndex 页码
+ * @param pageSize 每页条数
+ */
+export async function listProfileBlogByUser({ curUserName, pageIndex, pageSize }: ListBlogParam): Promise<ListBlogResult> {
+  const userWhereOpt: UserWhereOpt = {}
+
+  if (!isVoid(curUserName)) {
+    userWhereOpt.userName = curUserName
+  }
+  const { rows, count } = await Blog.findAndCountAll({
+    limit: pageSize,
+    offset: pageIndex * pageSize,
+    order: [
+      ['id', 'desc']
+    ],
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: ['userName', 'nickName', 'picture'],
+        where: userWhereOpt
+      }
+    ]
+  })
+  const blogList = rows.map(row => {
+    const { user: tempUser, id, userId, content, image, createdAt, updatedAt } = row
+    const { userName, nickName, picture } = tempUser
+    const user = formatUserInfo({ userName, nickName, picture })
+    return formatBlogData({
+      id,
+      userId,
+      content,
+      image,
+      createdAt,
+      updatedAt,
+      user
+    })
+  })
+
+  return {
+    blogList,
+    count
   }
 }

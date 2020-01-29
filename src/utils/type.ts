@@ -11,7 +11,7 @@ export function isUndef(val: unknown): val is undefined {
   return _toString(val) === 'Undefined'
 }
 
-export function isVoid(val: unknown): val is null | undefined {
+export function isVoid(val: unknown): val is void {
   return ['Null', 'Undefined'].includes(_toString(val))
 }
 
