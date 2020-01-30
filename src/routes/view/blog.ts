@@ -10,6 +10,7 @@ import { listProfileBlog } from '../../controller/blog-profile'
 import { isExist } from '../../controller/user'
 import { isVoid } from '../../utils/type'
 import { listSquareBlog } from '../../controller/blog-square'
+import { listFans, listFollower } from '../../controller/user-relation'
 
 const router = new Router()
 
@@ -24,7 +25,8 @@ interface UserData {
     count: number,
     list: any[]
   },
-  amIFollowed?: boolean
+  amIFollowed?: boolean,
+  isMe?: boolean
 }
 
 
@@ -69,23 +71,14 @@ router.get('/profile', loginRedirect, async (ctx, next) => {
 
 router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   const profileParam: ProfileParam = {
-    userData: {
-      fansData: {
-        list: [],
-        count: 0
-      },
-      followersData: {
-        list: [],
-        count: 0
-      },
-      amIFollowed: false
-    }
+    userData: {}
   }
   let curUserInfo: UserInfo
   const myUserInfo = ctx.session.userInfo
   const myUserName = myUserInfo.userName
   const { userName: curUserName } = ctx.params as { userName: string }
   const isMe = myUserName === curUserName
+  profileParam.userData.isMe = isMe
   if (isMe) {
     curUserInfo = myUserInfo
   } else {
@@ -95,8 +88,21 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   }
   profileParam.userData.userInfo = curUserInfo
 
+  // * 获取个人主页 微博列表
   const { data } = await listProfileBlog(curUserInfo.userName, 0)
   profileParam.blogData = data
+
+  // * 获取粉丝列表
+  const { data: fansData } = await listFans(curUserInfo.id)
+  profileParam.userData.fansData = fansData
+
+  // * 是否关注
+  profileParam.userData.amIFollowed = fansData.list.some(fan => fan.userName === myUserName)
+
+  // * 获取关注人列表
+  const { data: followersData } = await listFollower(curUserInfo.id)
+
+  profileParam.userData.followersData = followersData
 
   await ctx.render('profile', profileParam)
 })

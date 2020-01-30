@@ -11,9 +11,11 @@ import {
   DataType,
   Comment,
   Unique,
-  Default
+  Default,
+  HasMany
 } from 'sequelize-typescript'
 import { UserModelInterface } from '../../types'
+import { UserRelation } from './UserRelation'
 
 @Table({ tableName: 'users' })
 export class User extends Model<User> implements UserModelInterface {
@@ -46,4 +48,7 @@ export class User extends Model<User> implements UserModelInterface {
   @Comment('城市')
   @Column(DataType.STRING)
   city?: string
+
+  @HasMany(() => UserRelation, 'userId')
+  userRelations: UserRelation[]
 }
