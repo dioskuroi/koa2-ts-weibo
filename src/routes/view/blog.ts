@@ -9,6 +9,7 @@ import { UserInfo, BlogData } from '../../types'
 import { listProfileBlog } from '../../controller/blog-profile'
 import { isExist } from '../../controller/user'
 import { isVoid } from '../../utils/type'
+import { listSquareBlog } from '../../controller/blog-square'
 
 const router = new Router()
 
@@ -98,6 +99,14 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   profileParam.blogData = data
 
   await ctx.render('profile', profileParam)
+})
+
+// * 广场页
+router.get('/square', loginRedirect, async (ctx, next) => {
+  const { data } = await listSquareBlog(0)
+  await ctx.render('square', {
+    blogData: data
+  } as ProfileParam)
 })
 
 export default router
