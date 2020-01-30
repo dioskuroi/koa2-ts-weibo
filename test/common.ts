@@ -3,4 +3,8 @@
  * @author 徐俊
  */
 
-export const cookie = 'weibo.sid=ozVpYsZo8Tn3yR93N01VCmB1u7brIY3l; weibo.sid.sig=VqkiJbhthhM9Uu2KVyQzIKGwnZQ'
+export const Z_COOKIE = 'weibo.sid=-6yuzcq098cuzQT_p4lcBuZ-nMbrN73b; weibo.sid.sig=qTgmWYid9Xd0MslgVLq-i8p1nAk'
+
+export const Z_USER_NAME = 'zhangsan'
+
+export const Z_ID = '1'
