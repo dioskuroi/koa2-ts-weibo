@@ -27,5 +27,6 @@ export interface BlogData {
   blogList: any[]
   pageSize: number
   pageIndex: number
-  count: number
+  count: number,
+  blogListTpl?: string
 }
