@@ -74,3 +74,32 @@ export async function listFollowerByUserId(userId: number): Promise<UserList> {
     count
   }
 }
+
+/**
+ * 添加关注
+ * @param userId 当前用户id
+ * @param followerId 被关注用户id
+ */
+export async function addFollow(userId: number, followerId: number): Promise<UserRelation> {
+  const result = UserRelation.create({
+    userId,
+    followerId
+  })
+  return result
+}
+
+/**
+ * 删除关注
+ * @param userId 当前用户id
+ * @param followerId 被关注用户id
+ */
+export async function deleteFollow(userId: number, followerId: number): Promise<boolean> {
+  const result = await UserRelation.destroy({
+    where: {
+      userId,
+      followerId
+    }
+  })
+
+  return result > 0
+}

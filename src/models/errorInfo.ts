@@ -56,6 +56,16 @@ export const deleteUserFailInfo: ErrorInterface = {
   message: '删除用户失败'
 }
 
+export const addFollowFailInfo: ErrorInterface = {
+  errno: resCode.ERR_ADD_FOLLOW_FAIL,
+  message: '添加关注失败'
+}
+
+export const deleteFollowFailInfo: ErrorInterface = {
+  errno: resCode.ERR_DELETE_FOLLOW_FAIL,
+  message: '取消关注失败'
+}
+
 export const createBlogFailInfo: ErrorInterface = {
   errno: resCode.ERR_CREATE_BLOG_FALI,
   message: '创建微博失败，请重试'
