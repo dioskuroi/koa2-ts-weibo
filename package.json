@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nodemon -e ts --exec ts-node -r tsconfig-paths/register bin/www",
     "prod": "cross-env NODE_ENV=production node -r tsconfig-paths/register bin/www",
-    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors --detectOpenHandles",
+    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors",
     "build": "npm run rm-dist && npm run build-ts && npm run copy-static",
     "build-ts": "tsc -b ./  --verbose",
     "copy-static": "ts-node copyStatic.ts",
