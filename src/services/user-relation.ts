@@ -6,6 +6,7 @@
 import { UserRelation, User } from '../db/models'
 import { UserList } from '../types'
 import { formatUserInfo } from './helpers/_format'
+import { Op } from 'sequelize'
 
 /**
  * 根据被关注用户id获取粉丝列表
@@ -22,7 +23,10 @@ export async function listUserByFollowerId(followerId: number): Promise<UserList
         model: UserRelation,
         as: 'userRelations',
         where: {
-          followerId
+          followerId,
+          userId: {
+            [Op.ne]: followerId
+          }
         }
       }
     ]
@@ -58,7 +62,10 @@ export async function listFollowerByUserId(userId: number): Promise<UserList> {
       }
     ],
     where: {
-      userId
+      userId,
+      followerId: {
+        [Op.ne]: userId
+      }
     }
   })
 

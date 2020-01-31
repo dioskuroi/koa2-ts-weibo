@@ -7,6 +7,7 @@ import { User } from '../db/models'
 import { UserInfo, UserInfoAttr, RegisterParam, ChangeParam, StringIndexObj } from '../types'
 import { formatUserInfo } from './helpers/_format'
 import { isNull, isVoid } from '../utils/type'
+import { addFollow } from './user-relation'
 
 // * 查询用户
 interface FindUserWhereOpt extends StringIndexObj {
@@ -75,6 +76,9 @@ export async function createUser({
     gender,
     nickName: nickName || userName
   })
+
+  // * 创建用户时，自己关注自己，方便首页查询微博列表时，带出自己发布的微博
+  addFollow(result.id, result.id)
   return result
 }
 

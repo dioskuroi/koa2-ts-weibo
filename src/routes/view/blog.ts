@@ -11,6 +11,7 @@ import { isExist } from '../../controller/user'
 import { isVoid } from '../../utils/type'
 import { listSquareBlog } from '../../controller/blog-square'
 import { listFans, listFollower } from '../../controller/user-relation'
+import { listHomeBlog } from '../../controller/blog-home'
 
 const router = new Router()
 
@@ -35,25 +36,22 @@ interface IndexParam {
   userData: UserData
 }
 
+// * 首页
 router.get('/', loginRedirect, async (ctx, next) => {
+  const userInfo = ctx.session.userInfo
+
+  const { data: fansData } = await listFans(userInfo.id)
+
+  const { data: followersData } = await listFollower(userInfo.id)
+
+  const { data: blogData } = await listHomeBlog(userInfo.id, 0)
+
   const indexParam: IndexParam = {
-    blogData: {
-      isEmpty: true,
-      blogList: [],
-      pageIndex: 0,
-      pageSize: 0,
-      count: 0
-    },
+    blogData,
     userData: {
-      userInfo: ctx.session.userInfo,
-      fansData: {
-        count: 0,
-        list: []
-      },
-      followersData: {
-        count: 0,
-        list: []
-      }
+      userInfo,
+      fansData,
+      followersData
     }
   }
   await ctx.render('index', indexParam)
@@ -64,6 +62,7 @@ interface ProfileParam {
   userData?: Partial<UserData>
 }
 
+// * 个人主页
 router.get('/profile', loginRedirect, async (ctx, next) => {
   const { userName } = ctx.session.userInfo
   ctx.redirect(`/profile/${userName}`)

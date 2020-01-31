@@ -6,6 +6,7 @@
 import { Table, Column, Comment, AllowNull, DataType, Model, BelongsTo, ForeignKey } from 'sequelize-typescript'
 import { User } from './user'
 import { CreateBlog } from '../../types'
+import { UserRelation } from './UserRelation'
 
 @Table({ tableName: 'blogs' })
 export class Blog extends Model<Blog> implements CreateBlog {
@@ -27,4 +28,7 @@ export class Blog extends Model<Blog> implements CreateBlog {
 
   @BelongsTo(() => User)
   user: User
+
+  @BelongsTo(() => UserRelation, { foreignKey: 'userId', targetKey: 'followerId' })
+  userRelation: UserRelation
 }
