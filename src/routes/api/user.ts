@@ -13,6 +13,7 @@ import userValidate from '../../validator/user'
 import { loginCheck } from '../../middlewares/loginCheck'
 import ENV from '../../utils/env'
 import { isVoid } from '../../utils/type'
+import { listFollower } from '../../controller/user-relation'
 
 const router = new Router()
 
@@ -70,6 +71,13 @@ router.patch('/changePassword', loginCheck, genValidator(userValidate), async (c
 // * 登出
 router.post('/logout', loginCheck, async (ctx, next) => {
   ctx.body = await logout(ctx)
+})
+
+router.get('/getAtList', loginCheck, async (ctx, next) => {
+  const { id } = ctx.session.userInfo
+  const { data } = await listFollower(id)
+  const list = data.list.map(user => `${user.nickName} - ${user.userName}`)
+  ctx.body = list
 })
 
 export default router
