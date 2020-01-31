@@ -26,6 +26,12 @@ test('张三获取关注人列表，应该有李四', async () => {
   expect(data.list.some(user => user.userName === L_USER_NAME)).toBeTruthy()
 })
 
+test('获取张三的At列表，应该有李四', async () => {
+  const result = await server.get('/api/user/getAtList').set('Cookie', Z_COOKIE)
+  const list = result.body
+  expect(list.some(str => str.indexOf(`- ${L_USER_NAME}`) > 0)).toBeTruthy()
+})
+
 test('李四获取粉丝立标，应该有张三', async () => {
   const { data, errno } = await listFans(L_ID)
   expect(errno).toBe(ResCode.ERR_OK)
