@@ -14,8 +14,15 @@ export interface CreateBlog {
 
 export type CreateBlogParam = Omit<CreateBlog, 'id'>
 
-export type BlogResult =
-  CreateBlog & { createdAt: string, updatedAt: string, createAtFormat?: string, updateDAtFormat?: string, user: UserInfo }
+export type BlogResult = CreateBlog & {
+  createdAt: string,
+  updatedAt: string,
+  createAtFormat?: string,
+  updateDAtFormat?: string,
+  contentFormat?: string,
+  user: UserInfo
+}
+
 
 export interface ListBlogResult {
   blogList: BlogResult[],

@@ -25,3 +25,13 @@ export const getBlogListStr: GetBlogListStr = function (blogList = [], canReply 
     canReply
   })
 }
+
+/**
+ * 管道化工具函数
+ * @param fns 管道化函数数组
+ */
+export function pipe<T, U = T>(...fns: Function[]): (arg: T) => U {
+  return function (arg: T): U {
+    return fns.reduce((prev, curr) => curr(prev), arg)
+  }
+}

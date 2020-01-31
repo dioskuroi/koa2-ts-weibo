@@ -3,7 +3,7 @@
  * @author 徐俊
  */
 
-export const Z_COOKIE = 'weibo.sid=6Z-WfSCQr3PZadD6ShNIFPXMZWyblmtG; weibo.sid.sig=v7m7YtTZvPpoCQ67rQoAPMSYjxM'
+export const Z_COOKIE = 'weibo.sid=jUMmKSAzhhjt2qHhYwyQ_aaylTkteZBE; weibo.sid.sig=p9BijWqP095x8yMTw6sF4wB7na0'
 
 export const Z_USER_NAME = 'zhangsan'
 
