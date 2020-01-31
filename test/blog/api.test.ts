@@ -42,3 +42,14 @@ test('获取广场页微博列表，应该成功', async () => {
   expect(result.body.data).toHaveProperty('count')
   expect(result.body.data).toHaveProperty('blogListTpl')
 })
+
+test('获取广场页微博列表，应该成功', async () => {
+  const result = await server.get('/api/blog/loadMore/0').set('Cookie', Z_COOKIE)
+  expect(result.body.errno).toEqual(resCode.ERR_OK)
+  expect(result.body.data).toHaveProperty('isEmpty')
+  expect(result.body.data).toHaveProperty('blogList')
+  expect(result.body.data).toHaveProperty('pageSize')
+  expect(result.body.data).toHaveProperty('pageIndex')
+  expect(result.body.data).toHaveProperty('count')
+  expect(result.body.data).toHaveProperty('blogListTpl')
+})
