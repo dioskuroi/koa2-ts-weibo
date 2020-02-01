@@ -33,6 +33,6 @@ export class Blog extends Model<Blog> implements CreateBlog {
   @BelongsTo(() => UserRelation, { foreignKey: 'userId', targetKey: 'followerId' })
   userRelation: UserRelation
 
-  @BelongsTo(() => AtRelation, 'id')
+  @BelongsTo(() => AtRelation, { foreignKey: 'id', targetKey: 'blogId' })
   atRelation: AtRelation
 }
