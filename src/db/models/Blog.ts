@@ -7,6 +7,7 @@ import { Table, Column, Comment, AllowNull, DataType, Model, BelongsTo, ForeignK
 import { User } from './user'
 import { CreateBlog } from '../../types'
 import { UserRelation } from './UserRelation'
+import { AtRelation } from './AtRelation'
 
 @Table({ tableName: 'blogs' })
 export class Blog extends Model<Blog> implements CreateBlog {
@@ -31,4 +32,7 @@ export class Blog extends Model<Blog> implements CreateBlog {
 
   @BelongsTo(() => UserRelation, { foreignKey: 'userId', targetKey: 'followerId' })
   userRelation: UserRelation
+
+  @BelongsTo(() => AtRelation, 'id')
+  atRelation: AtRelation
 }
