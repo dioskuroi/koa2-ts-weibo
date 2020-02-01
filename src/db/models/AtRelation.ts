@@ -5,9 +5,10 @@
 
 import { Table, Column, Comment, AllowNull, DataType, Model, ForeignKey, Default } from 'sequelize-typescript'
 import { Blog } from './Blog'
+import { AtRelationInterface } from '../../types'
 
 @Table({ tableName: 'atRelations' })
-export class AtRelation extends Model<AtRelation> {
+export class AtRelation extends Model<AtRelation> implements AtRelationInterface {
   @AllowNull(false)
   @Comment('用户id')
   @Column(DataType.INTEGER)

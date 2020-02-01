@@ -12,7 +12,7 @@ import { isVoid } from '../../utils/type'
 import { listSquareBlog } from '../../controller/blog-square'
 import { listFans, listFollower } from '../../controller/user-relation'
 import { listHomeBlog } from '../../controller/blog-home'
-import { getAtMeCount, listAtMeBlog } from '../../controller/at-relation'
+import { getAtMeCount, listAtMeBlog, markAsRead } from '../../controller/at-relation'
 
 const router = new Router()
 
@@ -151,6 +151,10 @@ router.get('/at-me', loginRedirect, async (ctx, next) => {
     }
   }
   await ctx.render('atMe', atMeParam)
+  // * 标记已读
+  if (atCount > 0) {
+    await markAsRead(userInfo.id)
+  }
 })
 
 export default router

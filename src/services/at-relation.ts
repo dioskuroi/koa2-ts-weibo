@@ -5,7 +5,8 @@
 
 import { AtRelation, Blog, User } from '../db/models'
 import { formatUserInfo, formatBlogData } from './helpers/_format'
-import { ListBlogResult } from '../types'
+import { ListBlogResult, AtRelationInterface } from '../types'
+import { isVoid } from '../utils/type'
 
 /**
  * 创建 at 关系
@@ -89,4 +90,33 @@ export async function listAtRelationBlog({ userId, pageIndex, pageSize }: ListAt
     blogList,
     count
   }
+}
+
+type AtRelationPartial = Partial<AtRelationInterface>
+
+/**
+ * 更新 at 关系
+ * @param param0 修改数据
+ * @param param1 条件
+ */
+export async function updateAtRelation(
+  { isRead: newIsRead }: AtRelationPartial,
+  { userId, isRead }: AtRelationPartial
+): Promise<boolean> {
+  const updateData: AtRelationPartial = {}
+  if (!isVoid(newIsRead)) {
+    updateData.isRead = newIsRead
+  }
+
+  const whereOpt: AtRelationPartial = {}
+  if (!isVoid(userId)) {
+    whereOpt.userId = userId
+  }
+  if (!isVoid(isRead)) {
+    whereOpt.isRead = isRead
+  }
+
+  const result = await AtRelation.update(updateData, { where: whereOpt })
+
+  return result[0] > 0
 }

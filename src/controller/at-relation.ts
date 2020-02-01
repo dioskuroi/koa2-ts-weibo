@@ -3,7 +3,7 @@
  * @author 徐俊
  */
 
-import { getAtUserCount, listAtRelationBlog } from '../services/at-relation';
+import { getAtUserCount, listAtRelationBlog, updateAtRelation } from '../services/at-relation';
 import { SuccessModel } from '../models/ResModel';
 import { BlogData } from '../types';
 import { PAGE_SIZE } from '../config/constant';
@@ -37,4 +37,17 @@ export async function listAtMeBlog(userId: number, pageIndex: number): Promise<S
     pageSize: PAGE_SIZE,
     count
   })
+}
+
+/**
+ * 标记已读
+ * @param userId 用户id
+ */
+export async function markAsRead(userId: number): Promise<void> {
+  try {
+    await updateAtRelation({ isRead: true }, { userId, isRead: false })
+  } catch (ex) {
+    // eslint-disable-next-line no-console
+    console.error(ex)
+  }
 }
