@@ -12,6 +12,7 @@ import { isVoid } from '../../utils/type'
 import { listSquareBlog } from '../../controller/blog-square'
 import { listFans, listFollower } from '../../controller/user-relation'
 import { listHomeBlog } from '../../controller/blog-home'
+import { getAtMeCount, listAtMeBlog } from '../../controller/at-relation'
 
 const router = new Router()
 
@@ -27,32 +28,41 @@ interface UserData {
     list: any[]
   },
   amIFollowed?: boolean,
-  isMe?: boolean
+  isMe?: boolean,
+  atCount?: number
 }
 
 
 interface IndexParam {
   blogData:BlogData,
-  userData: UserData
+  userData: UserData,
 }
 
 // * 首页
 router.get('/', loginRedirect, async (ctx, next) => {
   const userInfo = ctx.session.userInfo
 
+  // * 获取粉丝列表
   const { data: fansData } = await listFans(userInfo.id)
 
+  // * 获取关注人列表
   const { data: followersData } = await listFollower(userInfo.id)
 
+  // * 获取首页微博列表
   const { data: blogData } = await listHomeBlog(userInfo.id, 0)
+
+  // * 获取 at 数量
+  const result = await getAtMeCount(userInfo.id)
+  const { atCount } = result.data
 
   const indexParam: IndexParam = {
     blogData,
     userData: {
       userInfo,
       fansData,
-      followersData
-    }
+      followersData,
+      atCount
+    },
   }
   await ctx.render('index', indexParam)
 })
@@ -100,8 +110,11 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
 
   // * 获取关注人列表
   const { data: followersData } = await listFollower(curUserInfo.id)
-
   profileParam.userData.followersData = followersData
+
+  // * 获取 at 数量
+  const { data: { atCount } } = await getAtMeCount(myUserInfo.id)
+  profileParam.userData.atCount = atCount
 
   await ctx.render('profile', profileParam)
 })
@@ -112,6 +125,32 @@ router.get('/square', loginRedirect, async (ctx, next) => {
   await ctx.render('square', {
     blogData: data
   } as ProfileParam)
+})
+
+interface AtMeParam {
+  blogData: BlogData,
+  atCount: number,
+  UserData: {
+    userInfo: UserInfo
+  }
+}
+
+// * at-me 页
+router.get('/at-me', loginRedirect, async (ctx, next) => {
+  const userInfo = ctx.session.userInfo
+  // * 获取 at 数量
+  const { data: { atCount } } = await getAtMeCount(userInfo.id)
+
+  const { data: blogData } = await listAtMeBlog(userInfo.id, 0)
+
+  const atMeParam: AtMeParam = {
+    blogData,
+    atCount,
+    UserData: {
+      userInfo
+    }
+  }
+  await ctx.render('atMe', atMeParam)
 })
 
 export default router

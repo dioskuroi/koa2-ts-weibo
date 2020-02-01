@@ -8,7 +8,9 @@ import { ResModel, CreateBlog, CreateBlogParam, BlogData } from '../types';
 import { createBlog, listFollowerBlogByUserId } from '../services/blog';
 import { SuccessModel, ErrorModel } from '../models/ResModel';
 import { createBlogFailInfo } from '../models/errorInfo';
-import { PAGE_SIZE } from '../config/constant';
+import { PAGE_SIZE, REG_FOR_AT_WHO } from '../config/constant';
+import { getUserInfo } from '../services/user';
+import { createAtRelation } from '../services/at-relation';
 
 /**
  * 创建微博
@@ -17,8 +19,19 @@ import { PAGE_SIZE } from '../config/constant';
  * @param image 图片地址
  */
 export async function create({ userId, content, image }: CreateBlogParam): ResModel<CreateBlog> {
+  // * 获取 @ 用户id
+  const atUserNameList: string[] = []
+  content.replace(REG_FOR_AT_WHO, (matchStr, nickName, userName) => {
+    atUserNameList.push(userName)
+    return matchStr
+  })
+  const atUserList = await Promise.all(atUserNameList.map(userName => getUserInfo(userName)))
+  const atUserIdList: number[] = atUserList.map(user => user.id)
+
   try {
     const result = await createBlog({ userId, content: xss.filterXSS(content), image })
+    // * 创建 @ 关系
+    await Promise.all(atUserIdList.map(atUserId => createAtRelation(atUserId, result.id)))
     return new SuccessModel<CreateBlog>(result)
   } catch (ex) {
     // eslint-disable-next-line no-console

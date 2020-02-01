@@ -31,7 +31,7 @@ export interface ListBlogResult {
 
 export interface BlogData {
   isEmpty: boolean
-  blogList: any[]
+  blogList: BlogResult[]
   pageSize: number
   pageIndex: number
   count: number,
